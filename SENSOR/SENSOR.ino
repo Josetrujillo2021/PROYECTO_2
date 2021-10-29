@@ -1,6 +1,8 @@
 #include <Arduino.h>
-const int Trigger = 12;   //Pin digital 2 para el Trigger del sensor
-const int Echo = 13;   //Pin digital 3 para el Echo del sensor
+#define Trigger PE_4
+#define Echo PD_2
+//const int Trigger = 12;   //Pin digital 2 para el Trigger del sensor
+//const int Echo = 13;   //Pin digital 3 para el Echo del sensor
 long InicialTime; 
 void setup() {
   Serial.begin(115200);//iniciailzamos la comunicación
