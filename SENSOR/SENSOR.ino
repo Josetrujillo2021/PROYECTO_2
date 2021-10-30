@@ -12,8 +12,8 @@
 //----------------------------------------------------------------------------------------------------------------------
 //Definición de pines
 //----------------------------------------------------------------------------------------------------------------------
-const int Trigger = 12;   //Pin digital 2 para el Trigger del sensor
-const int Echo = 13;   //Pin digital 3 para el Echo del sensor
+const int Trigger = PE_4;   //Pin digital 2 para el Trigger del sensor
+const int Echo = PD_2;   //Pin digital 3 para el Echo del sensor
 
 //----------------------------------------------------------------------------------------------------------------------
 //Prototipos de funciones
@@ -29,7 +29,7 @@ long d; //distancia en centimetros
 
 //DELAY 1 = 10 microsegundos
 long LastTime1;
-long tiempo1 = 10;  
+long tiempo1 = 0.010;  
 
 //DELAY 2 = 1000 milisegundos
 long LastTime2; 
@@ -69,10 +69,12 @@ void loop()
 //---------------------------------------------------------------------------------------------------------------------
 void sensorProximidad(void){
   // este if permite mandar la señal de disparo del sensor con un ancho de banda de 10us en alto, luego se apaga
-  if (micros()- LastTime1 >= tiempo1){
-    digitalWrite(Trigger, HIGH);  
-    LastTime1 =micros(); 
-  }
+  //if (micros()- LastTime1 >= 10){
+    digitalWrite(Trigger, HIGH); 
+    LastTime1=micros();  
+    while(micros()<LastTime1+10) ; 
+  //delayMicroseconds(10);
+  //}
   
   digitalWrite(Trigger, LOW);
 
