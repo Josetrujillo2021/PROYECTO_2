@@ -29,7 +29,6 @@ long d; //distancia en centimetros
 
 //DELAY 1 = 10 microsegundos
 long LastTime1;
-long tiempo1 = 0.010;  
 
 //DELAY 2 = 1000 milisegundos
 long LastTime2; 
@@ -68,14 +67,10 @@ void loop()
 //Sensor proximidad
 //---------------------------------------------------------------------------------------------------------------------
 void sensorProximidad(void){
-  // este if permite mandar la señal de disparo del sensor con un ancho de banda de 10us en alto, luego se apaga
-  //if (micros()- LastTime1 >= 10){
-    digitalWrite(Trigger, HIGH); 
-    LastTime1=micros();  
-    while(micros()<LastTime1+10) ; 
-  //delayMicroseconds(10);
-  //}
-  
+  // este while permite mandar la señal de disparo del sensor con un ancho de banda de 10us en alto, luego se apaga
+  digitalWrite(Trigger, HIGH); 
+  LastTime1=micros();  
+  while(micros()<LastTime1+10) ; 
   digitalWrite(Trigger, LOW);
 
   //obtenemos el ancho del pulso 
