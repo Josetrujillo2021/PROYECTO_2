@@ -12,6 +12,10 @@
 //----------------------------------------------------------------------------------------------------------------------
 //Definición de pines
 //----------------------------------------------------------------------------------------------------------------------
+
+#define B1 PF_0 
+#define B2 PF_4
+
 const int Trigger = PE_4;   //Pin digital 2 para el Trigger del sensor
 const int Echo = PD_2;   //Pin digital 3 para el Echo del sensor
 
@@ -44,6 +48,11 @@ void setup() {
   Serial.begin(115200);//iniciailzamos la comunicación
   pinMode(Trigger, OUTPUT); //pin como salida
   pinMode(Echo, INPUT);  //pin como entrada
+
+  pinMode(B1, INPUT_PULLUP);
+  pinMode(B2, INPUT_PULLUP);
+
+  
   digitalWrite(Trigger, LOW);//Inicializamos el pin con 0
 
   //tiempos
@@ -57,10 +66,10 @@ void setup() {
 //---------------------------------------------------------------------------------------------------------------------
 void loop()
 {
-  if(millis()-LastTime2 >= tiempo2){
+  //if(millis()-LastTime2 >= tiempo2){
     sensorProximidad();   
-    LastTime2 = millis(); 
-  }
+    //LastTime2 = millis(); 
+  //}
 }
 
 //---------------------------------------------------------------------------------------------------------------------
@@ -79,8 +88,15 @@ void sensorProximidad(void){
   d = t/59;             
 
   //Enviamos serialmente el valor de la distancia
-  Serial.print("Distancia: ");
-  Serial.print(d);      
-  Serial.print("cm");
-  Serial.println();
+  if (digitalRead(B1)==0){
+    delay(10);
+    if(digitalRead(B1)==1){
+      Serial.print("Distancia: ");
+      Serial.print(d);      
+      Serial.print("cm");
+      Serial.println();  
+   }
+  }
+  
+  
 }
