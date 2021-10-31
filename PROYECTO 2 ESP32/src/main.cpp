@@ -1,32 +1,61 @@
-#include <Arduino.h>
 
-const int Trigger = 2;   //Pin digital 2 para el Trigger del sensor
-const int Echo = 3;   //Pin digital 3 para el Echo del sensor
+#include <Arduino.h>
+#include <SPI.h>
+#include <SD.h>
+#define cs 33
+File archivo;
 
 void setup() {
-  Serial.begin(115200);//iniciailzamos la comunicación
-  pinMode(Trigger, OUTPUT); //pin como salida
-  pinMode(Echo, INPUT);  //pin como entrada
-  digitalWrite(Trigger, LOW);//Inicializamos el pin con 0
+  // Open serial communications and wait for port to open:
+  Serial.begin(115200);
+  while (!Serial) {
+    ; // wait for serial port to connect. Needed for native USB port only
+  }
+
+
+  Serial.print("Initializing SD card...");
+
+  pinMode(cs, OUTPUT);
+  //Se esta inicializando la tarjeta SD
+  if (!SD.begin(cs)) {
+    Serial.println("initialization failed!");
+    while (1);
+  }
+  Serial.println("initialization done.");
+
+  //Parametros: 1:archivo a utilizar 2: es para ver si es para escritura o lectura
+  //Si es lectura  se puede omitir
+  archivo = SD.open("datos.txt", FILE_WRITE);
+
+  // if the file opened okay, write to it:
+  if (archivo) {
+    Serial.print("Writing to test.txt...");
+    archivo.println("testing 1, 2, 3.");
+    // Siempre cerrar el archivo cuando se modifique
+    archivo.close();
+    Serial.println("done.");
+  } else {
+    // if the file didn't open, print an error:
+    Serial.println("error opening test.txt");
+  }
+
+  // re-open the file for reading:
+  archivo = SD.open("test.txt");
+  if (archivo) {
+    Serial.println("test.txt:");
+
+    // read from the file until there's nothing else in it:
+    while (archivo.available()) {
+      Serial.write(archivo.read());
+    }
+    // close the file:
+    archivo.close();
+  } else {
+    // if the file didn't open, print an error:
+    Serial.println("error opening test.txt");
+  }
 }
 
-void loop()
-{
-  long t; //timepo que demora en llegar el eco
-  long d; //distancia en centimetros
-
-  digitalWrite(Trigger, HIGH);
-  delayMicroseconds(10);          //Enviamos un pulso de 10us
-  digitalWrite(Trigger, LOW);
-  
-  t = pulseIn(Echo, HIGH); //obtenemos el ancho del pulso //preguntar si puedo usar transistores para poder comunicar al SENSOR con el OPAM. el triger va conectado a 5V y el transitor  del pin detrigger del 
-  //procesador va a 3.3V luego la del transistor del echo del sensor ba a la base y 3.3v a el procesador
-  d = t/59;             //escalamos el tiempo a una distancia en cm
-  
-  Serial.print("Distancia: ");
-  Serial.print(d);      //Enviamos serialmente el valor de la distancia
-  Serial.print("cm");
-  Serial.println();
-  Serial.print(t);
-  delay(100);          //Hacemos una pausa de 100ms
+void loop() {
+  // nothing happens after setup
 }
