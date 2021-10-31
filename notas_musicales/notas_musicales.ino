@@ -215,7 +215,7 @@ void setup() {
       noTone(PF_2);
   }
 
-   /*for (int thisNote = 0; thisNote < 2; thisNote++) {
+   for (int thisNote = 0; thisNote < 2; thisNote++) {
       // to calculate the note duration, take one second divided by the note type.
       //e.g. quarter note = 1000 / 4, eighth note = 1000/8, etc.
       int noteDuration = 1000 / noteDurations[thisNote];
@@ -226,7 +226,7 @@ void setup() {
       delay(pauseBetweenNotes);
       // stop the tone playing:
       noTone(PF_2);
-  }*/
+  }
 
 }
 
