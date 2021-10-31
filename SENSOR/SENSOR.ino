@@ -13,8 +13,8 @@
 //Definición de pines
 //----------------------------------------------------------------------------------------------------------------------
 
-#define B1 PF_0 
-#define B2 PF_4
+#define Boton1 PF_0 
+#define Boton2 PF_4
 
 #define Trigger PE_4   //Pin digital 2 para el Trigger del sensor
 #define Echo PD_2   //Pin digital 3 para el Echo del sensor
@@ -66,8 +66,8 @@ void setup() {
   pinMode(Trigger, OUTPUT); //pin como salida
   pinMode(Echo, INPUT);  //pin como entrada
 
-  pinMode(B1, INPUT_PULLUP);
-  pinMode(B2, INPUT_PULLUP);
+  pinMode(Boton1, INPUT_PULLUP);
+  pinMode(Boton2, INPUT_PULLUP);
 
   
   digitalWrite(Trigger, LOW);//Inicializamos el pin con 0
@@ -103,7 +103,7 @@ void sensorProximidad(void){
   d = t/59;             
 
   //Enviamos serialmente el valor de la distancia
-  if (digitalRead(B1)==0){
+  if (digitalRead(Boton1)==0){
     //Alarma Buzzer
     for (int thisNote = 0; thisNote < 2; thisNote++) {
       //Tiempo de la nota
@@ -116,7 +116,7 @@ void sensorProximidad(void){
       noTone(buzzer);
     }
     delay(10);
-    if(digitalRead(B1)==1){
+    if(digitalRead(Boton1)==1){
       Serial.print("Distancia: ");
       Serial.print(d);      
       Serial.print("cm");
@@ -128,8 +128,8 @@ void sensorProximidad(void){
 //---------------------------------------------------------------------------------------------------------------------
 //Guardar datos en la SD
 //---------------------------------------------------------------------------------------------------------------------
-void guadarDatoSD(void){
- if (digitalRead(B2)==0){
+void guardarDatoSD(void){
+ if (digitalRead(Boton2)==0){
    for (int thisNote = 0; thisNote < 2; thisNote++) {
       //Alarma Buzzer
       int noteDuration = 1000 / noteDurations[thisNote];
@@ -141,7 +141,7 @@ void guadarDatoSD(void){
       noTone(buzzer);
     }
    delay(10);
-    if(digitalRead(B2)==1){
+    if(digitalRead(Boton2)==1){
       //aqui debo de agragar la función que se comunicara con ESP32 para guardar el dato
     }
 }
