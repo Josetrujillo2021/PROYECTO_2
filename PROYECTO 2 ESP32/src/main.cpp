@@ -2,7 +2,7 @@
 #include <Arduino.h>
 #include <SPI.h>
 #include <SD.h>
-#define cs 33
+#define cs 5
 File archivo;
 
 void setup() {
@@ -16,6 +16,7 @@ void setup() {
   Serial.print("Initializing SD card...");
 
   pinMode(cs, OUTPUT);
+  //SPI.(0); 
   //Se esta inicializando la tarjeta SD
   if (!SD.begin(cs)) {
     Serial.println("initialization failed!");
