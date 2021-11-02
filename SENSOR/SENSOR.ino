@@ -143,6 +143,7 @@ void guardarDatoSD(void){
    delay(10);
     if(digitalRead(Boton2)==1){
       //aqui debo de agragar la función que se comunicara con ESP32 para guardar el dato
+      Serial.println("Se guardaron los datos en la memoria SD"); 
     }
 }
 }
