@@ -16,8 +16,8 @@
 #define Boton1 PF_0 
 #define Boton2 PF_4
 
-#define Trigger PE_4   //Pin digital 2 para el Trigger del sensor
-#define Echo PD_2   //Pin digital 3 para el Echo del sensor
+//#define Trigger PE_4   //Pin digital 2 para el Trigger del sensor
+//#define Echo PD_2   //Pin digital 3 para el Echo del sensor
 
 #define buzzer PF_2
 
@@ -31,13 +31,14 @@
 //----------------------------------------------------------------------------------------------------------------------
 void sensorProximidad(void);
 void guardarDatoSD(void);
+void lecturaDatos(void);
 //---------------------------------------------------------------------------------------------------------------------
 //Variables Globales
 //----------------------------------------------------------------------------------------------------------------------
 
 //Son de tipo long debido a que su dato es en la medición de tiempo
-long t; //timepo que demora en llegar el eco
-long d; //distancia en centimetros
+//long t; //timepo que demora en llegar el eco
+//long d; //distancia en centimetros
 
 //DELAY 1 = 10 microsegundos
 long LastTime1;
@@ -54,6 +55,8 @@ int medicion[] = { NOTE_B0, NOTE_A7 };
 int noteDurations[] = {4, 16};
 int noteDurations1[] = {8, 8};
 
+//Dato sensor
+String dato=""; 
 //----------------------------------------------------------------------------------------------------------------------
 //ISR  (interrupciones)
 //----------------------------------------------------------------------------------------------------------------------
@@ -63,14 +66,15 @@ int noteDurations1[] = {8, 8};
 //----------------------------------------------------------------------------------------------------------------------
 void setup() {
   Serial.begin(115200);//iniciailzamos la comunicación
-  pinMode(Trigger, OUTPUT); //pin como salida
-  pinMode(Echo, INPUT);  //pin como entrada
+  Serial1.begin(115200);
+  /*pinMode(Trigger, OUTPUT); //pin como salida
+  pinMode(Echo, INPUT);  //pin como entrada*/
 
   pinMode(Boton1, INPUT_PULLUP);
   pinMode(Boton2, INPUT_PULLUP);
 
   
-  digitalWrite(Trigger, LOW);//Inicializamos el pin con 0
+  //digitalWrite(Trigger, LOW);//Inicializamos el pin con 0
 
   //tiempos
   LastTime1=micros(); 
@@ -85,13 +89,14 @@ void loop()
 {
   sensorProximidad();   
   guardarDatoSD(); 
+  lecturaDatos();
 }
 
 //---------------------------------------------------------------------------------------------------------------------
 //Sensor proximidad
 //---------------------------------------------------------------------------------------------------------------------
 void sensorProximidad(void){
-  // este while permite mandar la señal de disparo del sensor con un ancho de banda de 10us en alto, luego se apaga
+ /* // este while permite mandar la señal de disparo del sensor con un ancho de banda de 10us en alto, luego se apaga
   digitalWrite(Trigger, HIGH); 
   LastTime1=micros();  
   while(micros()<LastTime1+10) ; 
@@ -100,7 +105,7 @@ void sensorProximidad(void){
   //obtenemos el ancho del pulso 
   t = pulseIn(Echo, HIGH);
   //escalamos el tiempo a una distancia en cm 
-  d = t/59;             
+  d = t/59;*/             
 
   //Enviamos serialmente el valor de la distancia
   if (digitalRead(Boton1)==0){
@@ -117,10 +122,12 @@ void sensorProximidad(void){
     }
     delay(10);
     if(digitalRead(Boton1)==1){
+      Serial1.println("medir");
+      /*
       Serial.print("Distancia: ");
       Serial.print(d);      
       Serial.print("cm");
-      Serial.println();  
+      Serial.println();  */
    }
   } 
 }
@@ -143,7 +150,15 @@ void guardarDatoSD(void){
    delay(10);
     if(digitalRead(Boton2)==1){
       //aqui debo de agragar la función que se comunicara con ESP32 para guardar el dato
-      Serial.println("Se guardaron los datos en la memoria SD"); 
+      Serial1.println("guardar");
+      //Serial.println("Se guardaron los datos en la memoria SD"); 
     }
 }
+}
+//---------------------------------------------------------------------------------------------------------------------
+//Lectura de datos
+//---------------------------------------------------------------------------------------------------------------------
+void lecturaDatos(void){
+  dato = Serial1.readStringUntil('\n');
+  Serial.println(dato);
 }
