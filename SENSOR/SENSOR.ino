@@ -66,7 +66,7 @@ String dato="";
 //----------------------------------------------------------------------------------------------------------------------
 void setup() {
   Serial.begin(115200);//iniciailzamos la comunicación
-  Serial1.begin(115200);
+  Serial3.begin(115200);
   /*pinMode(Trigger, OUTPUT); //pin como salida
   pinMode(Echo, INPUT);  //pin como entrada*/
 
@@ -122,7 +122,7 @@ void sensorProximidad(void){
     }
     delay(10);
     if(digitalRead(Boton1)==1){
-      Serial1.println("medir");
+      Serial3.println("medir");
       /*
       Serial.print("Distancia: ");
       Serial.print(d);      
@@ -150,7 +150,7 @@ void guardarDatoSD(void){
    delay(10);
     if(digitalRead(Boton2)==1){
       //aqui debo de agragar la función que se comunicara con ESP32 para guardar el dato
-      Serial1.println("guardar");
+      Serial3.println("guardar");
       //Serial.println("Se guardaron los datos en la memoria SD"); 
     }
 }
@@ -159,6 +159,6 @@ void guardarDatoSD(void){
 //Lectura de datos
 //---------------------------------------------------------------------------------------------------------------------
 void lecturaDatos(void){
-  dato = Serial1.readStringUntil('\n');
+  dato = Serial3.readStringUntil('\n');
   Serial.println(dato);
 }

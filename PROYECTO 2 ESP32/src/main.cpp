@@ -48,7 +48,7 @@ String guardado= "";
 //----------------------------------------------------------------------------------------------------------------------
 void setup() {
   Serial.begin(115200);//iniciailzamos la comunicación
-  Serial1.begin(115200);
+  Serial2.begin(115200);
   pinMode(Trigger, OUTPUT); //pin como salida
   pinMode(Echo, INPUT);  //pin como entrada
   
@@ -85,7 +85,7 @@ void sensorProximidad(void){
   d = t/59;             
 
   //permite leer lo que se mande al canal serial 1 hasta que exista un espacio y lo guarda en la variable 
-  medidor = Serial1.readStringUntil('\n');
+  medidor = Serial2.readStringUntil('\n');
 
   //Enviamos serialmente el valor de la distancia
   if (medidor == "medir"){
@@ -95,7 +95,7 @@ void sensorProximidad(void){
       Serial.print("cm");
       Serial.println();  
       //Comunicación con TIVA
-      Serial1.println(d);
+      Serial2.println(d);
   } 
 }
 
@@ -104,11 +104,11 @@ void sensorProximidad(void){
 //---------------------------------------------------------------------------------------------------------------------
 void guardarDatoSD(void){
   //permite leer lo que se mande al canal serial 1 hasta que exista un espacio y lo guarda en la variable 
-  guardado= Serial1.readStringUntil('\n');
+  guardado= Serial2.readStringUntil('\n');
   if (guardado == "guardar"){
     //Comunicacion con UART
     Serial.println("Se guardaron los datos en la memoria SD"); 
     //Se envia el dato a TIVA para que lo guarde
-    Serial1.println(d);
+    Serial2.println(d);
   }
 }
