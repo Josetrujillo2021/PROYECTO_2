@@ -88,7 +88,7 @@ void sensorProximidad(void){
   medidor = Serial1.readStringUntil('\n');
 
   //Enviamos serialmente el valor de la distancia
-  if (medidor = 'medir'){
+  if (medidor == "medir"){
       //Comunicación con monitor
       Serial.print("Distancia: ");
       Serial.print(d);      
@@ -105,7 +105,7 @@ void sensorProximidad(void){
 void guardarDatoSD(void){
   //permite leer lo que se mande al canal serial 1 hasta que exista un espacio y lo guarda en la variable 
   guardado= Serial1.readStringUntil('\n');
-  if (guardado = 'guardar'){
+  if (guardado == "guardar"){
     //Comunicacion con UART
     Serial.println("Se guardaron los datos en la memoria SD"); 
     //Se envia el dato a TIVA para que lo guarde
