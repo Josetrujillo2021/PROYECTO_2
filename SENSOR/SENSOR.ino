@@ -198,10 +198,18 @@ void sensorProximidad(void){
       delay(pauseBetweenNotes);
       //detiene la nota que esta sonando
       noTone(buzzer);
+      comunicacion = true; 
     }
     delay(10);
     if(digitalRead(Boton1)==1){
-      Serial3.println("medir_");
+      if(comunicacion){
+        if (Serial3.available()>0){
+          dato = Serial3.readStringUntil('\n');
+         
+        }
+        Serial3.println(dato);
+        comunicacion = false; 
+      }
       /*
       Serial.print("Distancia: ");
       Serial.print(d);      
