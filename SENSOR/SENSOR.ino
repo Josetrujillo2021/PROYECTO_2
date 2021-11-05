@@ -209,7 +209,6 @@ void sensorProximidad(void){
         }
         Serial2.println(dato);
         comunicacion = false; 
-        dato = ""; 
       }
       /*
       Serial.print("Distancia: ");
