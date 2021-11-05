@@ -141,14 +141,14 @@ void setup() {
 //---------------------------------------------------------------------------------------------------------------------
 void loop()
 {
-   if (millis() - LastTime1 >= sampleTime1){
+  /* if (millis() - LastTime1 >= sampleTime1){
      for (int x = 0; x < 320 - 32; x++) {
     int anim2 = (x / 35) % 4;
-    LCD_Sprite(60, 100, 32, 32, pesaSprite, 4, anim2, 0, 1);
+   LCD_Sprite(60, 100, 32, 32, pesaSprite, 4, anim2, 0, 1);
   }
     LastTime1 = millis();
-  }
-  LCD_Print(text1 ,150, 150, 6, 0x0000,   0xFFFF);
+  }*/
+  LCD_Print(text1 ,110, 110, 1, 0x0000,   0xFFFF);
   
 
   sensorProximidad();   
