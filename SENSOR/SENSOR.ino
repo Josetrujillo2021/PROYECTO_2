@@ -82,6 +82,7 @@ extern uint8_t fondo[];
 
 //DELAY 1 = 10 microsegundos
 long LastTime1;
+long sampleTime1 =15; 
 
 //DELAY 2 = 1000 milisegundos
 long LastTime2; 
@@ -117,7 +118,7 @@ void setup() {
   //digitalWrite(Trigger, LOW);//Inicializamos el pin con 0
 
   //tiempos
-  LastTime1=micros(); 
+  LastTime1=millis(); 
   LastTime2=millis();
 
   //Inicializacion de TFT
@@ -140,11 +141,14 @@ void setup() {
 //---------------------------------------------------------------------------------------------------------------------
 void loop()
 {
-   for (int x = 0; x < 320 - 32; x++) {
+   if (millis() - LastTime1 >= sampleTime1){
+     for (int x = 0; x < 320 - 32; x++) {
     int anim2 = (x / 35) % 4;
     LCD_Sprite(60, 100, 32, 32, pesaSprite, 4, anim2, 0, 1);
-    delay(15);
   }
+    LastTime1 = millis();
+  }
+  
   sensorProximidad();   
   guardarDatoSD(); 
   lecturaDatos();
