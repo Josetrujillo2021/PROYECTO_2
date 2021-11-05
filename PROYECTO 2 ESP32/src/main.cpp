@@ -68,22 +68,8 @@ void setup() {
 void loop()
 {
   sensorProximidad();   
-  guardarDatoSD(); 
+ // guardarDatoSD(); 
 
-  if (comunicacion){
-    //Enviamos serialmente el valor de la distancia
-    if (medidor == "medir_"){
-        //Comunicación con monitor
-        Serial.print("Distancia: ");
-        Serial.print(d);      
-        Serial.print("cm");
-        Serial.println();  
-        //Comunicación con TIVA
-        Serial2.println(d);
-        medidor = ""; 
-        comunicacion = false; 
-    }
-  }
 }
 
 //---------------------------------------------------------------------------------------------------------------------
@@ -100,14 +86,16 @@ void sensorProximidad(void){
   t = pulseIn(Echo, HIGH);
   //escalamos el tiempo a una distancia en cm 
   d = t/59;             
-
-   if (Serial2.available()>=0){
-    char inChar = (char)Serial2.read(); 
-    //permite leer lo que se mande al canal serial 1 hasta que exista un espacio y lo guarda en la variable 
-    medidor += inChar;
-    if (inChar = '_'){
-      comunicacion= true ; 
-    }
+  
+  Serial2.println(d); 
+  //permite leer lo que se mande al canal serial 1 hasta que exista un espacio y lo guarda en la variable 
+  if (Serial2.available()>0){
+    medidor = Serial2.readStringUntil('\n');
+    //Comunicación con monitor
+    Serial.print("Distancia: ");
+    Serial.print(medidor);      
+    Serial.print("cm");
+    Serial.println();  
   }
 }
 
