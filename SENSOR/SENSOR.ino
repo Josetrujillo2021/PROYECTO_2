@@ -98,6 +98,7 @@ int noteDurations1[] = {8, 8};
 
 //Dato sensor
 String dato=""; 
+String text1 = "Sensor de proximidad";
 //----------------------------------------------------------------------------------------------------------------------
 //ISR  (interrupciones)
 //----------------------------------------------------------------------------------------------------------------------
@@ -132,7 +133,7 @@ void setup() {
   FillRect(70, 60, 20, 20, 0x07E0);
   FillRect(90, 60, 20, 20, 0x001F);
 
-  String text1 = "Sensor de proximidad";
+  
 }
 
 
@@ -148,10 +149,10 @@ void loop()
   }
     LastTime1 = millis();
   }
-  
+  LCD_Print(text1 ,150, 150, 6, 0x0000,   0xFFFF);
   sensorProximidad();   
   guardarDatoSD(); 
-  lecturaDatos();
+  //lecturaDatos();
 }
 
 //---------------------------------------------------------------------------------------------------------------------
