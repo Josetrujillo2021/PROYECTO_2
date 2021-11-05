@@ -23,6 +23,7 @@
 #include "driverlib/rom.h"
 #include "driverlib/sysctl.h"
 #include "driverlib/timer.h"
+#include <avr/pgmspace.h>
 
 #include "bitmaps.h"
 #include "font.h"
@@ -128,11 +129,9 @@ void setup() {
 
   LCD_Init();
   LCD_Clear(0x00);
-  FillRect(0, 0, 319, 239, 0xFFFF);
-  FillRect(50, 60, 20, 20, 0xF800);
-  FillRect(70, 60, 20, 20, 0x07E0);
-  FillRect(90, 60, 20, 20, 0x001F);
 
+  LCD_Bitmap(0, 0, 320, 240, fondo);
+  
   
 }
 
@@ -150,6 +149,8 @@ void loop()
     LastTime1 = millis();
   }
   LCD_Print(text1 ,150, 150, 6, 0x0000,   0xFFFF);
+  
+
   sensorProximidad();   
   guardarDatoSD(); 
   //lecturaDatos();
