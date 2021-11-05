@@ -39,6 +39,8 @@ long tiempo2 = 1000;
 
 String medidor = ""; 
 String guardado= ""; 
+
+bool comunicacion = false; //esto me va a permitir definir cuando empieza y termina la comunicación UART 
 //----------------------------------------------------------------------------------------------------------------------
 //ISR  (interrupciones)
 //----------------------------------------------------------------------------------------------------------------------
@@ -67,6 +69,21 @@ void loop()
 {
   sensorProximidad();   
   guardarDatoSD(); 
+
+  if (comunicacion){
+    //Enviamos serialmente el valor de la distancia
+    if (medidor == "medir_"){
+        //Comunicación con monitor
+        Serial.print("Distancia: ");
+        Serial.print(d);      
+        Serial.print("cm");
+        Serial.println();  
+        //Comunicación con TIVA
+        Serial2.println(d);
+        medidor = ""; 
+        comunicacion = false; 
+    }
+  }
 }
 
 //---------------------------------------------------------------------------------------------------------------------
@@ -85,20 +102,12 @@ void sensorProximidad(void){
   d = t/59;             
 
    if (Serial2.available()>=0){
+    char inChar = (char)Serial2.read(); 
     //permite leer lo que se mande al canal serial 1 hasta que exista un espacio y lo guarda en la variable 
-    medidor = Serial2.readStringUntil('\n');
-
-    //Enviamos serialmente el valor de la distancia
-    if (medidor == "medir"){
-        //Comunicación con monitor
-        Serial.print("Distancia: ");
-        Serial.print(d);      
-        Serial.print("cm");
-        Serial.println();  
-        //Comunicación con TIVA
-        Serial2.println(d);
-        medidor = ""; 
-    } 
+    medidor += inChar;
+    if (inChar = '_'){
+      comunicacion= true ; 
+    }
   }
 }
 
