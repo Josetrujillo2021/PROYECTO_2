@@ -103,6 +103,8 @@ int datoNum =0;
 //Dato sensor
 String dato=""; 
 String text1 = "Sensor de proximidad";
+
+bool comunicacion = false; 
 //----------------------------------------------------------------------------------------------------------------------
 //ISR  (interrupciones)
 //----------------------------------------------------------------------------------------------------------------------
@@ -156,6 +158,13 @@ void loop()
   LCD_Print(text1 ,110, 110, 1, 0x0000,   0xFFFF);
   LCD_Print(dato ,110, 110, 1, 0x0000,   0xFFFF);
   //Serial.print(datoNum);
+
+ /* if (comunicacion){
+    if (Serial3.readStringUntil('\n') == '\n') {
+      dato = Serial3.readStringUntil('\n');
+    }
+    comunicacion = false; 
+  }*/
   
   sensorProximidad();   
   guardarDatoSD(); 
@@ -192,7 +201,7 @@ void sensorProximidad(void){
     }
     delay(10);
     if(digitalRead(Boton1)==1){
-      Serial3.println("medir");
+      Serial3.println("medir_");
       /*
       Serial.print("Distancia: ");
       Serial.print(d);      
