@@ -96,6 +96,7 @@ void sensorProximidad(void){
       Serial.println();  
       //Comunicación con TIVA
       Serial2.println(d);
+      medidor = ""; 
   } 
 }
 
@@ -110,5 +111,6 @@ void guardarDatoSD(void){
     Serial.println("Se guardaron los datos en la memoria SD"); 
     //Se envia el dato a TIVA para que lo guarde
     Serial2.println(d);
+    guardado = ""; 
   }
 }
