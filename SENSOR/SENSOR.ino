@@ -58,6 +58,7 @@ int DPINS[] = {PB_0, PB_1, PB_2, PB_3, PB_4, PB_5, PB_6, PB_7};
 void sensorProximidad(void);
 void guardarDatoSD(void);
 void lecturaDatos(void);
+void spriteProximidad(void);
 
 //funciones para TFT
 void LCD_Init(void);
@@ -85,9 +86,19 @@ extern uint8_t fondo[];
 long LastTime1;
 long sampleTime1 =15; 
 
-//DELAY 2 = 1000 milisegundos
+//DELAY 2 = 15 milisegundos
 long LastTime2; 
-long tiempo2 = 1000; 
+long sampleTime2 = 15;
+
+ 
+//DELAY 3 = 15 milisegundos
+long LastTime3; 
+long sampleTime3 = 15; 
+
+
+//DELAY 4 = 15 milisegundos
+long LastTime4; 
+long sampleTime4 = 15; 
 
 //Melodias del buzzer
 int melody[] = { NOTE_F7, NOTE_F6 };
@@ -127,6 +138,8 @@ void setup() {
   //tiempos
   LastTime1=millis(); 
   LastTime2=millis();
+  LastTime3=millis();
+  LastTime4=millis(); 
 
   //Inicializacion de TFT
   SysCtlClockSet(SYSCTL_SYSDIV_2_5 | SYSCTL_USE_PLL | SYSCTL_OSC_MAIN | SYSCTL_XTAL_16MHZ);
@@ -146,26 +159,13 @@ void setup() {
 //---------------------------------------------------------------------------------------------------------------------
 void loop()
 {
-  //con este dato númerico puedo hacer que mi progra muestre el sprite que quiero dependiendo del valor del sensor. 
-  datoNum = dato.toInt();
- /* if (millis() - LastTime1 >= sampleTime1){
-     for (int x = 0; x < 320 - 32; x++) {
-    int anim2 = (x / 35) % 4;
-   LCD_Sprite(60, 100, 32, 32, pesaSprite, 4, anim2, 0, 1);
-  }
-    LastTime1 = millis();
-  }*/
+  
+  
   LCD_Print(text1 ,110, 110, 1, 0x0000,   0xFFFF);
   LCD_Print(dato ,110, 120, 1, 0x0000,   0xFFFF);
-  //Serial.print(datoNum);
 
- /* if (comunicacion){
-    if (Serial3.readStringUntil('\n') == '\n') {
-      dato = Serial3.readStringUntil('\n');
-    }
-    comunicacion = false; 
-  }*/
-  
+  //con este dato númerico puedo hacer que mi progra muestre el sprite que quiero dependiendo del valor del sensor. 
+  spriteProximidad(); 
   sensorProximidad();   
   guardarDatoSD(); 
   //lecturaDatos();
@@ -210,11 +210,6 @@ void sensorProximidad(void){
         Serial2.println(dato);
         comunicacion = false; 
       }
-      /*
-      Serial.print("Distancia: ");
-      Serial.print(d);      
-      Serial.print("cm");
-      Serial.println();  */
    }
   } 
 }
@@ -250,6 +245,53 @@ void lecturaDatos(void){
   Serial.println(dato);
 }
 
+//---------------------------------------------------------------------------------------------------------------------
+//Sprite de proximidad 
+//---------------------------------------------------------------------------------------------------------------------
+void spriteProximidad(void){
+  datoNum = dato.toInt();
+  //Sprite de cercanía segura
+  if (datoNum > 200){
+    if (millis() - LastTime1 >= sampleTime1){
+     for (int x = 0; x < 320 - 32; x++) {
+    int anim2 = (x / 35) % 3;
+   LCD_Sprite(60, 100, 32, 32, lejosSprite, 3, anim2, 0, 1);
+  }
+    LastTime1 = millis();
+  }  
+ }
+ //Sprite de cercanía moderada
+ if (datoNum < 200 && datoNum >= 100){
+    if (millis() - LastTime2 >= sampleTime2){
+     for (int x = 0; x < 320 - 32; x++) {
+    int anim2 = (x / 35) % 3;
+   LCD_Sprite(60, 100, 32, 32, cercaSprite, 3, anim2, 0, 1);
+  }
+    LastTime2 = millis();
+  }  
+ }
+  //Sprite de cercanía peligrosa
+ if (datoNum < 100 ){
+    if (millis() - LastTime3 >= sampleTime3){
+     for (int x = 0; x < 320 - 32; x++) {
+    int anim2 = (x / 35) % 3;
+   LCD_Sprite(60, 100, 32, 32, muyCercaSprite, 3, anim2, 0, 1);
+  }
+    LastTime3 = millis();
+  }  
+ }
+
+  //Sprite de Peligro
+ if (datoNum < 100 ){
+    if (millis() - LastTime4 >= sampleTime4){
+     for (int x = 0; x < 320 - 32; x++) {
+    int anim2 = (x / 35) % 2;
+   LCD_Sprite(60, 100, 32, 32, peligroSprite, 2, anim2, 0, 1);
+  }
+    LastTime4 = millis();
+  }  
+ }
+}
 //***************************************************************************************************************************************
 // Función para inicializar LCD
 //***************************************************************************************************************************************
