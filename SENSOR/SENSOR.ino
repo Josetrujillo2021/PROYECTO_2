@@ -97,6 +97,9 @@ int medicion[] = { NOTE_B0, NOTE_A7 };
 int noteDurations[] = {4, 16};
 int noteDurations1[] = {8, 8};
 
+//dato numerico
+int datoNum =0;
+
 //Dato sensor
 String dato=""; 
 String text1 = "Sensor de proximidad";
@@ -141,16 +144,19 @@ void setup() {
 //---------------------------------------------------------------------------------------------------------------------
 void loop()
 {
-  /* if (millis() - LastTime1 >= sampleTime1){
+  //con este dato númerico puedo hacer que mi progra muestre el sprite que quiero dependiendo del valor del sensor. 
+  datoNum = dato.toInt();
+  if (millis() - LastTime1 >= sampleTime1){
      for (int x = 0; x < 320 - 32; x++) {
     int anim2 = (x / 35) % 4;
    LCD_Sprite(60, 100, 32, 32, pesaSprite, 4, anim2, 0, 1);
   }
     LastTime1 = millis();
-  }*/
+  }
   LCD_Print(text1 ,110, 110, 1, 0x0000,   0xFFFF);
+  LCD_Print(dato ,110, 110, 1, 0x0000,   0xFFFF);
+  Serial.print(datoNum);
   
-
   sensorProximidad();   
   guardarDatoSD(); 
   //lecturaDatos();
