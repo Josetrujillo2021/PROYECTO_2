@@ -84,33 +84,37 @@ void sensorProximidad(void){
   //escalamos el tiempo a una distancia en cm 
   d = t/59;             
 
-  //permite leer lo que se mande al canal serial 1 hasta que exista un espacio y lo guarda en la variable 
-  medidor = Serial2.readStringUntil('\n');
+   if (Serial2.available()>=0){
+    //permite leer lo que se mande al canal serial 1 hasta que exista un espacio y lo guarda en la variable 
+    medidor = Serial2.readStringUntil('\n');
 
-  //Enviamos serialmente el valor de la distancia
-  if (medidor == "medir"){
-      //Comunicación con monitor
-      Serial.print("Distancia: ");
-      Serial.print(d);      
-      Serial.print("cm");
-      Serial.println();  
-      //Comunicación con TIVA
-      Serial2.println(d);
-      medidor = ""; 
-  } 
+    //Enviamos serialmente el valor de la distancia
+    if (medidor == "medir"){
+        //Comunicación con monitor
+        Serial.print("Distancia: ");
+        Serial.print(d);      
+        Serial.print("cm");
+        Serial.println();  
+        //Comunicación con TIVA
+        Serial2.println(d);
+        medidor = ""; 
+    } 
+  }
 }
 
 //---------------------------------------------------------------------------------------------------------------------
 //Guardar datos en la SD
 //---------------------------------------------------------------------------------------------------------------------
 void guardarDatoSD(void){
-  //permite leer lo que se mande al canal serial 1 hasta que exista un espacio y lo guarda en la variable 
-  guardado= Serial2.readStringUntil('\n');
-  if (guardado == "guardar"){
-    //Comunicacion con UART
-    Serial.println("Se guardaron los datos en la memoria SD"); 
-    //Se envia el dato a TIVA para que lo guarde
-    Serial2.println(d);
-    guardado = ""; 
+   if (Serial2.available()>=0){
+    //permite leer lo que se mande al canal serial 1 hasta que exista un espacio y lo guarda en la variable 
+    guardado= Serial2.readStringUntil('\n');
+    if (guardado == "guardar"){
+      //Comunicacion con UART
+      Serial.println("Se guardaron los datos en la memoria SD"); 
+      //Se envia el dato a TIVA para que lo guarde
+      Serial2.println(d);
+      guardado = ""; 
+    }
   }
 }
