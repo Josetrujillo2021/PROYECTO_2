@@ -156,7 +156,7 @@ void loop()
     LastTime1 = millis();
   }*/
   LCD_Print(text1 ,110, 110, 1, 0x0000,   0xFFFF);
-  LCD_Print(dato ,110, 110, 1, 0x0000,   0xFFFF);
+  LCD_Print(dato ,110, 120, 1, 0x0000,   0xFFFF);
   //Serial.print(datoNum);
 
  /* if (comunicacion){
@@ -168,7 +168,7 @@ void loop()
   
   sensorProximidad();   
   guardarDatoSD(); 
-  lecturaDatos();
+  //lecturaDatos();
 }
 
 //---------------------------------------------------------------------------------------------------------------------
