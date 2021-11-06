@@ -187,8 +187,6 @@ void loop()
 //Sensor proximidad
 //---------------------------------------------------------------------------------------------------------------------
 void sensorProximidad(void){
-           
-
   //Enviamos serialmente el valor de la distancia
   if (digitalRead(Boton1)==0){
     //Alarma Buzzer
