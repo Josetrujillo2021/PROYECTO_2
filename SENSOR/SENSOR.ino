@@ -8,6 +8,8 @@
 //Librerías
 //----------------------------------------------------------------------------------------------------------------------
 #include <Arduino.h>
+#include <SPI.h> //se incluye la libreria de la comunicacion SPI para que gfunciona la comunicacion con la SD 
+#include <SD.h> //Se incluye la libreria de la SD 
 
 //librerías para TFT
 #include <stdint.h>
@@ -116,6 +118,8 @@ String dato="";
 String text1 = "Sensor de proximidad";
 
 bool comunicacion = false; 
+bool subirDato = false; 
+File myFile;//este tipo de función me permite guardar datos en un archivo con ese nombre
 //----------------------------------------------------------------------------------------------------------------------
 //ISR  (interrupciones)
 //----------------------------------------------------------------------------------------------------------------------
@@ -220,14 +224,54 @@ void guardarDatoSD(void){
       delay(pauseBetweenNotes);
       //se detiene la nota que esta sonando
       noTone(buzzer);
+      subirDato=true; 
     }
    delay(10);
     if(digitalRead(Boton2)==1){
       //aqui debo de agragar la función que se comunicara con ESP32 para guardar el dato
-      Serial2.println("guardar");
-      //Serial.println("Se guardaron los datos en la memoria SD"); 
+      if(subirDato){
+        writeSD;  
+        subirDato = false; 
+        Serial.println("Se guardaron los datos en la memoria SD"); 
+      }
+       
+      
     }
 }
+}
+//***************************************************************************************************************************************
+// Función para escribir en la SD
+//***************************************************************************************************************************************
+void writeSD(void) {
+
+  myFile = SD.open("datos.csv", FILE_WRITE);//abrira una carpeta en formato excel o hoja de calculo 
+
+  //si el archivo abrió correctamente entra al if
+  if (myFile) {
+    Serial.println("Escribiendo datos");
+
+    Serial.print("Proximidad: ");
+    Serial.print(dato);//sobreescribe sobre el dato que guardo en el ultimo momento del sensor 
+
+
+    myFile.print(dato.toInt());
+    myFile.println(",");
+
+
+
+    
+    // cierra el doc:
+    myFile.close();
+    Serial.println("done.");
+  } else {
+    // Si no abrió correctamente el archivo
+    Serial.println("error opening data.csv");
+  }
+  /*for (int x = 0; x < 320 - 32; x++) {//uncion de animacion ya que se tien varias columnas reproducria cara una proporcionando un efecto de movimiento 
+    int anim2 = (x / 35) % 3;
+    LCD_Sprite(60, 100, 50, 50, pesaSprite, 3, anim2, 0, 1);
+    delay(15);
+  }*/
 }
 //---------------------------------------------------------------------------------------------------------------------
 //Lectura de datos
