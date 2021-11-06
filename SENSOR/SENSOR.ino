@@ -145,6 +145,13 @@ void setup() {
   LastTime3=millis();
   LastTime4=millis(); 
 
+  SPI.setModule(0);//se define el modulo del SPI en el canal 0 de 3
+
+  // se tendra los comandos base para que fincione la comunicacion con la SD
+  if (!SD.begin(PA_3)) {
+    Serial.println("Fallo tu logica");//esto es progamacion preventba que si no tengo la SD conectada me mandara este mensaje al igual que si algo fallo
+    return;
+  }
   //Inicializacion de TFT
   SysCtlClockSet(SYSCTL_SYSDIV_2_5 | SYSCTL_USE_PLL | SYSCTL_OSC_MAIN | SYSCTL_XTAL_16MHZ);
   GPIOPadConfigSet(GPIO_PORTB_BASE, 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7, GPIO_STRENGTH_8MA, GPIO_PIN_TYPE_STD_WPU);
