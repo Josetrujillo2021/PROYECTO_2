@@ -165,7 +165,8 @@ void loop()
   LCD_Print(dato ,110, 120, 1, 0x0000,   0xFFFF);
 
   //con este dato númerico puedo hacer que mi progra muestre el sprite que quiero dependiendo del valor del sensor. 
-  spriteProximidad(); 
+  
+  //spriteProximidad(); 
   sensorProximidad();   
   guardarDatoSD(); 
   //lecturaDatos();
@@ -175,16 +176,7 @@ void loop()
 //Sensor proximidad
 //---------------------------------------------------------------------------------------------------------------------
 void sensorProximidad(void){
- /* // este while permite mandar la señal de disparo del sensor con un ancho de banda de 10us en alto, luego se apaga
-  digitalWrite(Trigger, HIGH); 
-  LastTime1=micros();  
-  while(micros()<LastTime1+10) ; 
-  digitalWrite(Trigger, LOW);
-
-  //obtenemos el ancho del pulso 
-  t = pulseIn(Echo, HIGH);
-  //escalamos el tiempo a una distancia en cm 
-  d = t/59;*/             
+           
 
   //Enviamos serialmente el valor de la distancia
   if (digitalRead(Boton1)==0){
@@ -255,7 +247,7 @@ void spriteProximidad(void){
     if (millis() - LastTime1 >= sampleTime1){
      for (int x = 0; x < 320 - 32; x++) {
     int anim2 = (x / 35) % 3;
-   LCD_Sprite(60, 100, 32, 32, lejosSprite, 3, anim2, 0, 1);
+   LCD_Sprite(275, 100, 32, 32, lejosSprite, 3, anim2, 0, 1);
   }
     LastTime1 = millis();
   }  
@@ -265,17 +257,19 @@ void spriteProximidad(void){
     if (millis() - LastTime2 >= sampleTime2){
      for (int x = 0; x < 320 - 32; x++) {
     int anim2 = (x / 35) % 3;
-   LCD_Sprite(60, 100, 32, 32, cercaSprite, 3, anim2, 0, 1);
+   LCD_Sprite(275, 100, 32, 32, cercaSprite, 3, anim2, 0, 1);
   }
     LastTime2 = millis();
   }  
  }
   //Sprite de cercanía peligrosa
- if (datoNum < 100 ){
+if (datoNum < 100 ){
     if (millis() - LastTime3 >= sampleTime3){
-     for (int x = 0; x < 320 - 32; x++) {
-    int anim2 = (x / 35) % 3;
-   LCD_Sprite(60, 100, 32, 32, muyCercaSprite, 3, anim2, 0, 1);
+      for (int x = 0; x < 320 - 32; x++) {
+      int anim2 = (x / 35) % 3;
+      LCD_Sprite(275, 100, 32, 32, muyCercaSprite, 3, anim2, 0, 1);
+
+      
   }
     LastTime3 = millis();
   }  
@@ -285,9 +279,10 @@ void spriteProximidad(void){
  if (datoNum < 100 ){
     if (millis() - LastTime4 >= sampleTime4){
      for (int x = 0; x < 320 - 32; x++) {
-    int anim2 = (x / 35) % 2;
-   LCD_Sprite(60, 100, 32, 32, peligroSprite, 2, anim2, 0, 1);
+      int anim2 = (x/ 35) % 2;
+      LCD_Sprite(275, 142, 32, 32, peligroSprite, 2, anim2, 0, 1);
   }
+  
     LastTime4 = millis();
   }  
  }
