@@ -211,6 +211,7 @@ void sensorProximidad(void){
          
         }
         Serial2.println(dato);
+        spriteProximidad(); 
         comunicacion = false; 
       }
    }
@@ -237,7 +238,7 @@ void guardarDatoSD(void){
     if(digitalRead(Boton2)==1){
       //aqui debo de agragar la función que se comunicara con ESP32 para guardar el dato
       if(subirDato){
-        writeSD;  
+        writeSD();  
         subirDato = false; 
         Serial.println("Se guardaron los datos en la memoria SD"); 
       }
