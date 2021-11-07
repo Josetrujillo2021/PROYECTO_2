@@ -129,7 +129,7 @@ File myFile;//este tipo de función me permite guardar datos en un archivo con e
 //----------------------------------------------------------------------------------------------------------------------
 void setup() {
   Serial.begin(115200);//iniciailzamos la comunicación
-  Serial1.begin(115200);
+  Serial4.begin(115200);
   /*pinMode(Trigger, OUTPUT); //pin como salida
   pinMode(Echo, INPUT);  //pin como entrada*/
 
@@ -204,11 +204,11 @@ void sensorProximidad(void){
     delay(10);
     if(digitalRead(Boton1)==1){
       if(comunicacion){
-        if (Serial1.available()>0){
-          dato = Serial1.readStringUntil('\n');
+        if (Serial4.available()>0){
+          dato = Serial4.readStringUntil('\n');
          
         }
-        Serial2.println(dato);
+        Serial4.println(dato);
         spriteProximidad(); 
         comunicacion = false; 
       }
@@ -330,7 +330,7 @@ if (datoNum < 100 ){
     if (millis() - LastTime4 >= sampleTime4){
      for (int x = 0; x < 320 - 32; x++) {
       int anim2 = (x/ 35) % 2;
-      LCD_Sprite(275, 142, 32, 32, peligroSprite, 2, anim2, 0, 1);
+      LCD_Sprite(275, 100, 32, 32, peligroSprite, 2, anim2, 0, 1);
   }
   
     LastTime4 = millis();
