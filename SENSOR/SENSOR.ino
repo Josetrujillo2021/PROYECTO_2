@@ -54,6 +54,10 @@
 #define LCD_WR PD_3
 #define LCD_RD PE_1
 int DPINS[] = {PB_0, PB_1, PB_2, PB_3, PB_4, PB_5, PB_6, PB_7};
+
+
+#define Trigger PE_0   //Pin digital 2 para el Trigger del sensor
+#define Echo PF_0   //Pin digital 3 para el Echo del sensor
 //----------------------------------------------------------------------------------------------------------------------
 //Prototipos de funciones
 //----------------------------------------------------------------------------------------------------------------------
@@ -83,6 +87,9 @@ void LCD_Sprite(int x, int y, int width, int height, unsigned char bitmap[], int
 //----------------------------------------------------------------------------------------------------------------------
 //Variable para TFT 
 extern uint8_t fondo[];
+
+long t; //timepo que demora en llegar el eco
+long d; //distancia en centimetros
 
 //DELAY 1 = 10 microsegundos
 long LastTime1;
@@ -199,6 +206,16 @@ void sensorProximidad(void){
       delay(pauseBetweenNotes);
       //detiene la nota que esta sonando
       noTone(buzzer);
+      
+      digitalWrite(Trigger, HIGH); 
+      LastTime1=micros();  
+      while(micros()<LastTime1+10) ; 
+      digitalWrite(Trigger, LOW);
+
+      //obtenemos el ancho del pulso 
+      t = pulseIn(Echo, HIGH);
+      //escalamos el tiempo a una distancia en cm 
+      d = t/59;             
       comunicacion = true; 
     }
     delay(10);
@@ -208,7 +225,7 @@ void sensorProximidad(void){
           dato = Serial4.readStringUntil('\n');
          
         }
-        Serial4.println(dato);
+        Serial4.println(d);
         spriteProximidad(); 
         comunicacion = false; 
       }
