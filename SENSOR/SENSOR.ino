@@ -129,7 +129,7 @@ File myFile;//este tipo de función me permite guardar datos en un archivo con e
 //----------------------------------------------------------------------------------------------------------------------
 void setup() {
   Serial.begin(115200);//iniciailzamos la comunicación
-  Serial2.begin(115200);
+  Serial1.begin(115200);
   /*pinMode(Trigger, OUTPUT); //pin como salida
   pinMode(Echo, INPUT);  //pin como entrada*/
 
@@ -204,8 +204,8 @@ void sensorProximidad(void){
     delay(10);
     if(digitalRead(Boton1)==1){
       if(comunicacion){
-        if (Serial2.available()>0){
-          dato = Serial2.readStringUntil('\n');
+        if (Serial1.available()>0){
+          dato = Serial1.readStringUntil('\n');
          
         }
         Serial2.println(dato);
@@ -283,7 +283,7 @@ void writeSD(void) {
 //Lectura de datos
 //---------------------------------------------------------------------------------------------------------------------
 void lecturaDatos(void){
-  dato = Serial2.readStringUntil('\n');
+  dato = Serial1.readStringUntil('\n');
   Serial.println(dato);
 }
 
