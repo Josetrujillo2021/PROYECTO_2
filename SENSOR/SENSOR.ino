@@ -116,6 +116,7 @@ int datoNum =0;
 //Dato sensor
 String dato=""; 
 String text1 = "Sensor de proximidad";
+String prueba1="";
 
 bool comunicacion = false; 
 bool subirDato = false; 
@@ -130,6 +131,7 @@ File myFile;//este tipo de función me permite guardar datos en un archivo con e
 void setup() {
   Serial.begin(115200);//iniciailzamos la comunicación
   Serial4.begin(115200);
+  Serial3.begin(115200);
   /*pinMode(Trigger, OUTPUT); //pin como salida
   pinMode(Echo, INPUT);  //pin como entrada*/
 
@@ -178,6 +180,9 @@ void loop()
   //con este dato númerico puedo hacer que mi progra muestre el sprite que quiero dependiendo del valor del sensor. 
   
   //spriteProximidad(); 
+ /* Serial4.println("Esto es una prueba");
+  prueba1 =Serial4.readStringUntil('\n');
+  Serial.println(prueba1);*/
   sensorProximidad();   
   guardarDatoSD(); 
   //lecturaDatos();
